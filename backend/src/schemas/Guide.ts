@@ -1,8 +1,8 @@
 import { Schema } from 'mongoose';
 
-import { IUserModel, User } from './User';
+import { IUserModel, User, UserData } from './User';
 
-export type GuideData = {
+export type GuideData = UserData & {
   registryNumber: number;
   email: string;
   phone: string;
@@ -13,10 +13,10 @@ export type IGuideModel = IUserModel & GuideData;
 
 const GuideSchema = new Schema<IGuideModel>(
   {
-    registryNumber: Number,
-    email: String,
-    phone: String,
-    active: Boolean,
+    registryNumber: { type: Number, unique: true, required: true },
+    email: { type: String, unique: true, required: true },
+    phone: { type: String, unique: true, required: true },
+    active: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

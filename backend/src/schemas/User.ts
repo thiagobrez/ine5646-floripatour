@@ -13,9 +13,9 @@ export type IUserModel = Document & UserData;
 
 const UserSchema = new Schema<IUserModel>(
   {
-    name: String,
-    username: String,
-    password: String,
+    name: { type: String, required: true },
+    username: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
     isAdmin: {
       type: Boolean,
       default: function () {

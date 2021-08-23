@@ -12,7 +12,7 @@ const TourCommentSchema = new Schema<ITourCommentModel>(
   {
     tourId: { type: Schema.Types.ObjectId, ref: 'Tour' },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    text: String,
+    text: { type: String, required: true },
   },
   { timestamps: true }
 );

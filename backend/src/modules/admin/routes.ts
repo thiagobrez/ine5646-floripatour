@@ -2,24 +2,29 @@ import { Request, Response } from 'express';
 
 import AdminService from './service';
 
-export async function createGuide(req: Request, res: Response): Promise<Response> {
-  console.log('req.params', req.params);
+export async function readGuides(req: Request, res: Response): Promise<Response> {
+  const guides = await AdminService.readGuides();
+  return res.status(200).json(guides);
+}
 
-  const { name, username, password, registryNumber, email, phone } = req.params;
+export async function createGuide(req: Request, res: Response): Promise<Response> {
+  const { name, username, password, registryNumber, email, phone } = req.body;
 
   const data = {
     name,
     username,
     password, // TODO: hash password
-    registryNumber: Number(registryNumber),
+    registryNumber,
     email,
     phone,
     active: true,
   };
 
-  const saved = await AdminService.createGuide(data);
-
-  console.log('saved ROUTES', saved);
-
-  return res.status(200).json(saved);
+  try {
+    const saved = await AdminService.createGuide(data);
+    return res.status(200).json(saved);
+  } catch (error) {
+    console.log('error', error);
+    return res.status(400).json({ error });
+  }
 }
