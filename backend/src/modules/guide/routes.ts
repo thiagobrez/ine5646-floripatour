@@ -67,6 +67,11 @@ export async function createTour(req: Request, res: Response): Promise<Response>
   } = req.body;
 
   // TODO: Tratar imagens - salvar no disco
+  // https://stackoverflow.com/questions/15772394/how-to-upload-display-and-save-images-using-node-js-and-express
+  // app.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
+  // req.files is array of `photos` files
+  // req.body will contain the text fields, if there were any
+  // })
 
   const data = {
     title,
