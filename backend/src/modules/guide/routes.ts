@@ -5,15 +5,39 @@ import { TourData } from '@schemas/Tour';
 
 import GuideService from './service';
 
+const hash = require('pbkdf2-password')();
+
+export async function updateGuideInitialPassword(req: Request, res: Response): Promise<Response> {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  try {
+    hash({ password }, async function (err, pass, salt, hash) {
+      if (err) throw err;
+
+      const update = {
+        password: hash,
+        salt,
+        isFirstLogin: false,
+      };
+
+      const saved = await GuideService.updateGuide(id, update);
+      return res.status(200).json(saved);
+    });
+  } catch (error) {
+    console.log('error', error);
+    return res.status(400).json({ error });
+  }
+}
+
 export async function updateGuide(req: Request, res: Response): Promise<Response> {
   const { id } = req.params;
-  const { name, username, password, registryNumber, email, phone, active } = req.body;
+  const { name, username, registryNumber, email, phone, active } = req.body;
 
   const update: Partial<GuideData> = {};
 
   if (name !== undefined) update.name = name;
   if (username !== undefined) update.username = username;
-  if (password !== undefined) update.password = password; //TODO: hash password
   if (registryNumber !== undefined) update.registryNumber = registryNumber;
   if (email !== undefined) update.email = email;
   if (phone !== undefined) update.phone = phone;

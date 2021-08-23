@@ -7,6 +7,7 @@ export type GuideData = UserData & {
   email: string;
   phone: string;
   active: boolean;
+  isFirstLogin: boolean;
 };
 
 export type IGuideModel = IUserModel & GuideData;
@@ -17,6 +18,7 @@ const GuideSchema = new Schema<IGuideModel>(
     email: { type: String, unique: true, required: true },
     phone: { type: String, unique: true, required: true },
     active: { type: Boolean, default: true },
+    isFirstLogin: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

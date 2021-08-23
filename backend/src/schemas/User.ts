@@ -4,6 +4,7 @@ export type UserData = {
   name: string;
   username: string;
   password: string;
+  salt: string;
   isAdmin: boolean;
   isGuide: boolean;
   isTourist: boolean;
@@ -16,6 +17,7 @@ const UserSchema = new Schema<IUserModel>(
     name: { type: String, required: true },
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    salt: { type: String, required: true },
     isAdmin: {
       type: Boolean,
       default: function () {

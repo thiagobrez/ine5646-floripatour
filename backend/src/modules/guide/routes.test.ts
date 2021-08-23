@@ -34,10 +34,10 @@ it('Trocar a senha inicial', async (done) => {
     password: faker.internet.password(),
   };
 
-  const res = await request(DEFAULT_SERVER_URL).put(`/v1/guide/${guide._id}`).send(data);
+  const res = await request(DEFAULT_SERVER_URL).put(`/v1/guide/${guide._id}/password`).send(data);
 
   expect(res.status).toBe(200);
-  // TODO: Check password hash
+  expect(res.body.isFirstLogin).toBe(false);
   done();
 });
 

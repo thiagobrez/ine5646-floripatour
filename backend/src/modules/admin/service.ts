@@ -6,7 +6,7 @@ class AdminService {
     return await Guide.find();
   }
 
-  public async createGuide(data: GuideData): Promise<IGuideModel> {
+  public async createGuide(data: Partial<GuideData>): Promise<IGuideModel> {
     const guide = new Guide(data);
     return await guide.save();
   }

@@ -9,6 +9,7 @@ const routes = Router();
 routes.get('/guide', adminRoutes.readGuides);
 routes.post('/guide', adminRoutes.createGuide);
 routes.put('/guide/:id', guideRoutes.updateGuide);
+routes.put('/guide/:id/password', guideRoutes.updateGuideInitialPassword);
 
 routes.get('/tour', touristRoutes.readTours);
 routes.post('/tour', guideRoutes.createTour);
