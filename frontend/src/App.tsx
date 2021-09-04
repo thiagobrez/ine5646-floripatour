@@ -7,7 +7,6 @@ import { ThemeProvider } from "styled-components/macro";
 
 import Header from "./components/Header/Header";
 import { AppContextProvider } from "./contexts/AppContext";
-
 import AppRouter from "./routers/AppRouter";
 import theme, { Styles } from "./utils/theme";
 

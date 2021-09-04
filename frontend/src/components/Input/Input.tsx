@@ -1,12 +1,19 @@
 import React, { InputHTMLAttributes } from 'react';
 
-import styled from 'styled-components/macro'
+import { Controller, useFormContext } from 'react-hook-form';
+import NumberFormat from 'react-number-format';
+import styled, {css} from 'styled-components/macro'
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
+  error?: string;
 };
 
-const Container = styled.div`
+export type InputWithFormProps = InputProps & {
+  format: 'none' | 'phone';
+};
+
+const Container = styled.div<{hasError: boolean}>`
   position: relative;
   box-sizing: border-box;
   height: 64px;
@@ -68,6 +75,19 @@ const Container = styled.div`
   input:focus + label {
     color: var(--color-sunriseGold);
   }
+
+    ${(props) =>
+  props.hasError &&
+  css`
+      background-color: var(--color-errorColor-08);
+      border-color: var(--color-errorColor);
+      label {
+        color: var(--color-errorColor);
+      }
+      svg {
+        fill: var(--color-errorColor);
+      }
+    `}
 `;
 
 const StyledInput = styled.input`
@@ -91,7 +111,7 @@ const StyledInput = styled.input`
 `;
 
 const BaseInput = (
-  { name, placeholder, ...inputProps }: InputProps,
+  { name, placeholder, error, ...inputProps }: InputProps,
   ref: React.Ref<HTMLInputElement>,
 ) => {
   if (!ref) ref = React.createRef();
@@ -102,7 +122,7 @@ const BaseInput = (
   };
 
   return (
-    <Container onClick={focusInput}>
+    <Container hasError={!!error} onClick={focusInput}>
       <StyledInput
         name={name}
         placeholder={placeholder}
@@ -118,9 +138,43 @@ const BaseInput = (
 
 const Input = React.forwardRef(BaseInput);
 
+export const InputWithForm = ({ format, ...props }: InputWithFormProps) => {
+  const { errors, control } = useFormContext();
+  const error = errors?.[props.name]?.message;
+
+  const getComponent = (innerProps: any) => {
+    switch (format) {
+      case 'phone':
+        return (
+          <NumberFormat
+            customInput={Input}
+            {...props}
+            {...innerProps}
+            format="(##) #####-####"
+            mask="_"
+            error={error}
+          />
+        );
+
+      default:
+        const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+          innerProps.onBlur(e);
+          if (props.onBlur) props.onBlur(e);
+        };
+
+        return <Input {...props} {...innerProps} error={error} onBlur={onBlur} />;
+    }
+  };
+  return <Controller render={getComponent} control={control} name={props.name} defaultValue="" />;
+};
 
 const defaultProps = {
   type: 'text',
+};
+
+InputWithForm.defaultProps = {
+  ...defaultProps,
+  format: 'none',
 };
 
 export default styled(Input)``;

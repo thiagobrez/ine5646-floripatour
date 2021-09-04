@@ -72,13 +72,14 @@ export const Styles = createGlobalStyle`
     )};
 
     --shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.2);
   }
 
   body {
     height: 100%;
     margin: 0;
     padding: 0;
-    
+
     button {
       background: none;
       border: 0;

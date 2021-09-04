@@ -1,14 +1,13 @@
 import React, {useEffect} from "react";
 
 import { Route } from "react-router-dom";
-
-import LoginPage from "../features/login/LoginPage";
-import { RoleBasedRoute, Routes } from "../utils/routes";
-import LoggedInRouter from "./LoggedInRouter";
-
+import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components/macro';
-import LoggedOutRouter from "./LoggedOutRouter";
+
 import { useAppContext } from "../contexts/AppContext";
+import { Routes } from "../utils/routes";
+import LoggedInRouter from "./LoggedInRouter";
+import LoggedOutRouter from "./LoggedOutRouter";
 
 const Container = styled.div`
   height: 100%;
@@ -31,6 +30,8 @@ const AppRouter = () => {
         path={Routes.ROOT}
         component={!!loggedUser ? LoggedInRouter : LoggedOutRouter}
       />
+
+      <ToastContainer />
     </Container>
   );
 };

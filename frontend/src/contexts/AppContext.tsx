@@ -10,6 +10,14 @@ export type UserData = {
   isTourist: boolean;
 };
 
+export type GuideData = UserData & {
+  registryNumber: number;
+  email: string;
+  phone: string;
+  active: boolean;
+  isFirstLogin: boolean;
+};
+
 export type AppContextType = {
   state: ReducerState;
   setLoggedUser: (user: UserData | undefined) => void;

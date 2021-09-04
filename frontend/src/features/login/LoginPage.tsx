@@ -1,8 +1,10 @@
 import React, {useState} from "react";
+
 import { useMutation } from "react-query";
 import { useHistory } from "react-router";
 import styled from "styled-components/macro";
-import Button from "../../components/Button/Button";
+
+import Button from '../../components/Button/Button';
 import Input from "../../components/Input/Input";
 import { useAppContext } from "../../contexts/AppContext";
 
@@ -22,6 +24,7 @@ const LoginCard = styled.div`
   justify-content: space-around;
   padding: 12px;
   box-shadow: var(--shadow);
+  border-radius: 12px;
 `;
 
 const CardTitle = styled.h3`
@@ -29,7 +32,7 @@ const CardTitle = styled.h3`
 `;
 
 const DoubleInputWrapper = styled.div`
-  
+
 `;
 
 const LoginPage = () => {
@@ -65,12 +68,10 @@ const LoginPage = () => {
   const onLogin = async () => {
     const user = await loginMutation.mutateAsync({username, password});
 
-    console.log('user', user);
-    
     if(user) {
       setLoggedUser(user);
-      localStorage.setItem('loggedUser', JSON.stringify(user))
-      history.push('/home')
+      localStorage.setItem('loggedUser', JSON.stringify(user));
+      history.push('/');
     }
   }
 

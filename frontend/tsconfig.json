@@ -19,11 +19,20 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noImplicitAny": false,
+    "noImplicitAny": false
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "*rc.js", "*.config.js"],
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "*rc.js",
+    "*.config.js"
+  ],
   "downlevelIteration": true,
-  "typeRoots": ["./src/@types", "node_modules/@types"],
+  "typeRoots": [
+    "./src/@types",
+    "node_modules/@types"
+  ],
   "baseUrl": "src"
 }

@@ -15,7 +15,9 @@ interface RoleBasedRouteParams extends RouteProps {
 export enum Routes {
   ROOT = "/",
   HOME = "/home",
+  ADMIN = "/admin",
   LOGIN = "/login",
+  GUIDE = "/guide",
 }
 
 export const RoleBasedRoute = ({
@@ -24,16 +26,6 @@ export const RoleBasedRoute = ({
   ...rest
 }: RoleBasedRouteParams) => {
   const renderRoute = (props: RouteComponentProps<any>) => {
-    // if (!keycloak?.authenticated)
-    //   return (
-    //     <Redirect
-    //       to={{
-    //         pathname: Routes.LOGIN,
-    //         state: { from: props.location },
-    //       }}
-    //     />
-    //   );
-
     if (unlocked) {
       return <Component {...props} />;
     } else {
