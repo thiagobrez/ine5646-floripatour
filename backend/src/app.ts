@@ -138,14 +138,17 @@ class App {
               user.name +
               ' click to <a href="/logout">logout</a>. ' +
               ' You may now access <a href="/restricted">/restricted</a>.';
-            res.redirect('back');
+
+            res.status(200).send({ user });
           });
         } else {
           req.session.error =
             'Authentication failed, please check your ' +
             ' username and password.' +
             ' (use "tj" and "foobar")';
-          res.redirect('/login');
+          // res.redirect('/login');
+
+          res.status(401).send({ error: 'Unauthorized' });
         }
       });
     });

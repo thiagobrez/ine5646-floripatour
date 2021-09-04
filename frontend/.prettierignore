@@ -1,0 +1,17 @@
+.gitattributes
+.gitignore
+.prettierignore
+.eslintignore
+.editorconfig
+.jest
+
+dist
+coverage
+public
+ios
+android
+node_modules
+
+*.lock
+*.svg
+package-lock.json
