@@ -6,7 +6,7 @@ import styled from "styled-components/macro";
 
 import Button from '../../components/Button/Button';
 import Input from "../../components/Input/Input";
-import { useAppContext } from "../../contexts/AppContext";
+import {useAppContext, UserData} from "../../contexts/AppContext";
 
 
 const Container = styled.div`
@@ -21,7 +21,7 @@ const LoginCard = styled.div`
   width: 350px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   padding: 12px;
   box-shadow: var(--shadow);
   border-radius: 12px;
@@ -31,8 +31,11 @@ const CardTitle = styled.h3`
   align-self: center;
 `;
 
-const DoubleInputWrapper = styled.div`
-
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 24px;
 `;
 
 const LoginPage = () => {
@@ -41,7 +44,11 @@ const LoginPage = () => {
   const history = useHistory();
   const {setLoggedUser} = useAppContext();
 
-  const loginMutation = useMutation('LOGIN', async ({username, password}: any) => {
+  const loginMutation = useMutation<
+    UserData,
+    Error,
+    {username: string; password: string}
+    >('LOGIN', async ({username, password}: any) => {
     const res = await fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
@@ -65,13 +72,15 @@ const LoginPage = () => {
     setPassword(e.target.value);
   }
 
-  const onLogin = async () => {
+  const onLogin = async (e) => {
+    e.preventDefault();
+
     const user = await loginMutation.mutateAsync({username, password});
 
     if(user) {
       setLoggedUser(user);
       localStorage.setItem('loggedUser', JSON.stringify(user));
-      history.push('/');
+      location.reload();
     }
   }
 
@@ -79,13 +88,17 @@ const LoginPage = () => {
     <Container>
       <LoginCard>
         <CardTitle>Login</CardTitle>
-        <DoubleInputWrapper>
-        <Input name="username" placeholder="username" onChange={onChangeUsername}/>
-        <Input name="password" placeholder="password" type="password" onChange={onChangePassword}/>
-        </DoubleInputWrapper>
-        <Button borderColor="sunriseGold" backgroundColor="sunriseGoldBackground" height={30} onClick={onLogin}>
-          <h4>Entrar</h4>
-        </Button>
+        <Form onSubmit={onLogin}>
+          <Input name="username" placeholder="username" onChange={onChangeUsername}/>
+          <Input name="password" placeholder="password" type="password" onChange={onChangePassword}/>
+          <Button borderColor="sunriseGold"
+                  backgroundColor="sunriseGoldBackground"
+                  height={40}
+                  style={{marginTop: 24}}
+                  type="submit">
+            <h4>Entrar</h4>
+          </Button>
+        </Form>
       </LoginCard>
     </Container>
   );

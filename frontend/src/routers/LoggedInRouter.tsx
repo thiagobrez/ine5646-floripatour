@@ -12,8 +12,6 @@ import {RoleBasedRoute, Routes} from "../utils/routes";
 const LoggedInRouter = () => {
   const {state: {loggedUser}} = useAppContext();
 
-  console.log('loggedUser', loggedUser)
-
   let redirect: string = Routes.HOME;
 
   if(loggedUser?.isAdmin) {

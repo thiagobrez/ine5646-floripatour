@@ -1,21 +1,22 @@
-import React, { CSSProperties, ReactNode } from 'react';
-
-import theme from '../../utils/theme';
+import React, {CSSProperties, InputHTMLAttributes, ReactNode} from 'react';
 
 import styled, {css} from 'styled-components/macro';
 
-export type ButtonProps = {
+import theme from '../../utils/theme';
+
+
+export type ButtonProps = React.HTMLProps<HTMLButtonElement> & {
   height: number;
   backgroundColor: keyof typeof theme.colors;
   borderColor?: keyof typeof theme.colors;
-  onClick?: () => void;
+  // onClick?: () => void;
   stretch?: boolean;
-  disabled: boolean;
+  // disabled: boolean;
   style?: CSSProperties;
-  children: ReactNode | ReactNode[];
+  // children: ReactNode | ReactNode[];
 };
 
-const Container = styled.div<ButtonProps>`
+const Container = styled.button<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,15 +26,15 @@ const Container = styled.div<ButtonProps>`
   border-radius: 12px;
   padding: 12px;
   border: none;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-    cursor: pointer;
-    outline: none;
-    &:focus,
-    &:hover {
-        opacity: 0.7;
-    }
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  &:focus,
+  &:hover {
+      opacity: 0.7;
+  }
 
   ${({ borderColor }) =>
     borderColor &&
@@ -64,8 +65,11 @@ const Button = ({
   disabled,
   style,
   children,
+  ...rest
 }: ButtonProps) => {
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     <Container
       height={height}
       backgroundColor={backgroundColor}
@@ -74,6 +78,7 @@ const Button = ({
       disabled={disabled}
       onClick={disabled ? () => null : onClick}
       style={style}
+      {...rest}
     >
       {children}
     </Container>

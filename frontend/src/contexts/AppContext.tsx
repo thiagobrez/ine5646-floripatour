@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useContext, useReducer } from 'react';
 
 export type UserData = {
+  _id: string;
   name: string;
   username: string;
   password: string;

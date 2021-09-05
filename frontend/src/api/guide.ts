@@ -90,9 +90,41 @@ export function useGuides() {
     }
   })
 
+  const resetPasswordMutation = useMutation('GUIDE_RESET_PASSWORD', async ({guideId, password}: any) => {
+    const res = await fetch(`http://localhost:3000/v1/guide/${guideId}/password`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        password
+      })
+    });
+
+    return await res.json();
+  }, {
+    onMutate: async ({guideId, active}) => {
+      await queryClient.cancelQueries('GUIDES');
+
+      queryClient.setQueryData('GUIDES', (old: any[] = []) => {
+        return old.map(guide => {
+          if(guide._id === guideId) {
+            return {
+              ...guide,
+              isFirstLogin: false
+            }
+          }
+
+          return guide;
+        })
+      });
+    }
+  })
+
   return {
     guides,
     toggleGuideActiveMutation,
-    createGuideMutation
+    createGuideMutation,
+    resetPasswordMutation
   }
 }
