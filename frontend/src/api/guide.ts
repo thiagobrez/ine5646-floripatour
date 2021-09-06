@@ -1,5 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from "react-query";
 
+import {useAppContext} from "../contexts/AppContext";
+
 type CreateGuideInput = {
   name: string;
   username: string;
@@ -11,6 +13,7 @@ type CreateGuideInput = {
 
 export function useGuides() {
   const queryClient = useQueryClient();
+  const {setLoggedUser} = useAppContext();
 
   const {data: guides = []} = useQuery('GUIDES', async () => {
     const res = await fetch('http://localhost:3000/v1/guide', {
@@ -90,6 +93,52 @@ export function useGuides() {
     }
   })
 
+  const updateGuideMutation = useMutation('UPDATE_GUIDE', async ({guideId, update}: any) => {
+    const { name, username, registryNumber, email, phone } = update;
+
+    const res = await fetch(`http://localhost:3000/v1/guide/${guideId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        username,
+        registryNumber,
+        email,
+        phone
+      })
+    });
+
+    return await res.json();
+  }, {
+    onMutate: async ({guideId, update}) => {
+      const { name, username, registryNumber, email, phone } = update;
+      await queryClient.cancelQueries('GUIDES');
+
+      queryClient.setQueryData('GUIDES', (old: any[] = []) => {
+        return old.map(guide => {
+          if(guide._id === guideId) {
+            const optimisticGuide = {
+              ...guide,
+              name,
+              username,
+              registryNumber,
+              email,
+              phone
+            };
+
+            setLoggedUser(optimisticGuide);
+            localStorage.setItem('loggedUser', JSON.stringify(optimisticGuide));
+            return optimisticGuide;
+          }
+
+          return guide;
+        })
+      });
+    }
+  })
+
   const resetPasswordMutation = useMutation('GUIDE_RESET_PASSWORD', async ({guideId, password}: any) => {
     const res = await fetch(`http://localhost:3000/v1/guide/${guideId}/password`, {
       method: 'PUT',
@@ -125,6 +174,7 @@ export function useGuides() {
     guides,
     toggleGuideActiveMutation,
     createGuideMutation,
+    updateGuideMutation,
     resetPasswordMutation
   }
 }

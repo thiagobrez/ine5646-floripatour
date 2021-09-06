@@ -44,9 +44,9 @@ class App {
   }
 
   private middlewares(): void {
-    this.express.use(express.json());
+    this.express.use(express.json({ limit: '50mb' }));
     this.express.use(cors());
-    this.express.use(express.urlencoded({ extended: false }));
+    this.express.use(express.urlencoded({ limit: '50mb' }));
     this.express.use(
       session({
         resave: false,

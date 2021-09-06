@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { GuideData } from '@schemas/Guide';
 import { TourData } from '@schemas/Tour';
@@ -41,7 +43,7 @@ export async function updateGuide(req: Request, res: Response): Promise<Response
   if (registryNumber !== undefined) update.registryNumber = registryNumber;
   if (email !== undefined) update.email = email;
   if (phone !== undefined) update.phone = phone;
-  if (active !== undefined) update.active = active; //TODO: Check if isAdmin
+  if (active !== undefined) update.active = active;
 
   try {
     const saved = await GuideService.updateGuide(id, update);
@@ -52,38 +54,43 @@ export async function updateGuide(req: Request, res: Response): Promise<Response
   }
 }
 
-export async function createTour(req: Request, res: Response): Promise<Response> {
-  const {
-    title,
-    description,
-    images,
-    startLocation,
-    endLocation,
-    startTime,
-    endTime,
-    minTourists,
-    maxTourists,
-    price,
-  } = req.body;
+const handleError = (err, res) => {
+  res.status(500).end('Oops! Something went wrong!');
+};
 
-  // TODO: Tratar imagens - salvar no disco
-  // https://stackoverflow.com/questions/15772394/how-to-upload-display-and-save-images-using-node-js-and-express
-  // app.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
-  // req.files is array of `photos` files
-  // req.body will contain the text fields, if there were any
-  // })
+export async function createTour(req: Request & { files: any }, res: Response): Promise<Response> {
+  const images: string[] = [];
+
+  req.files.forEach((file) => {
+    images.push(file.originalname);
+
+    const tempPath = file.path;
+    const extension = path.extname(file.originalname).toLowerCase();
+    const targetPath = `/usr/app/uploads/${file.originalname}`;
+
+    if (extension === '.png' || extension === '.jpeg' || extension === '.jpg') {
+      fs.rename(tempPath, targetPath, (err) => {
+        if (err) return handleError(err, res);
+      });
+    } else {
+      fs.unlink(tempPath, (err) => {
+        if (err) return handleError(err, res);
+      });
+    }
+  });
 
   const data = {
-    title,
-    description,
-    images, // passar paths das imagens
-    startLocation,
-    endLocation,
-    startTime,
-    endTime,
-    minTourists,
-    maxTourists,
-    price,
+    title: req.body.title,
+    description: req.body.description,
+    images,
+    startLocation: req.body.startLocation,
+    endLocation: req.body.endLocation,
+    startTime: req.body.startTime,
+    endTime: req.body.endTime,
+    minTourists: req.body.minTourists,
+    maxTourists: req.body.maxTourists,
+    price: req.body.price,
+    availableDates: req.body.availableDates,
   };
 
   try {

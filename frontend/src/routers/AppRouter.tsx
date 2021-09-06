@@ -5,7 +5,9 @@ import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components/macro';
 
 import { useAppContext } from "../contexts/AppContext";
-import { Routes } from "../utils/routes";
+import TourPage from "../features/tour/TourPage";
+import ToursPage from "../features/tour/ToursPage";
+import {RoleBasedRoute, Routes} from "../utils/routes";
 import LoggedInRouter from "./LoggedInRouter";
 import LoggedOutRouter from "./LoggedOutRouter";
 
@@ -30,8 +32,10 @@ const AppRouter = () => {
         path={Routes.ROOT}
         component={!!loggedUser ? LoggedInRouter : LoggedOutRouter}
       />
+      <RoleBasedRoute path={Routes.TOUR} component={ToursPage} exact />
+      <RoleBasedRoute path={`${Routes.TOUR}/:tourId`} component={TourPage} exact />
 
-      <ToastContainer />
+      <ToastContainer pauseOnHover={false} />
     </Container>
   );
 };

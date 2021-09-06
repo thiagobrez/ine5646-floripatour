@@ -52,6 +52,7 @@
     "express-session": "^1.17.2",
     "faker": "^5.5.3",
     "mongoose": "^5.10.6",
+    "multer": "^1.4.3",
     "pbkdf2-password": "^1.2.1",
     "supertest": "^4.0.2",
     "wait-on": "^5.2.0"

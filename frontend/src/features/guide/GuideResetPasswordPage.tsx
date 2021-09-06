@@ -79,7 +79,6 @@ const GuideResetPasswordPage = () => {
         })
 
         history.replace(Routes.GUIDE);
-        // location.reload();
       })();
     }
   }

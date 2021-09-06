@@ -18,6 +18,7 @@ export enum Routes {
   ADMIN = "/admin",
   LOGIN = "/login",
   GUIDE = "/guide",
+  TOUR = "/tour",
 }
 
 export const RoleBasedRoute = ({

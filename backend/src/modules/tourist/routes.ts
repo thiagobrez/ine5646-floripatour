@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { Tour } from '@schemas/Tour';
+
 import TouristService from './service';
 
 const hash = require('pbkdf2-password')();
@@ -38,6 +40,13 @@ export async function createTourComment(req: Request, res: Response): Promise<Re
 
   try {
     const saved = await TouristService.createTourComment(data);
+
+    await Tour.findByIdAndUpdate(tourId, {
+      $push: {
+        comments: saved._id,
+      },
+    });
+
     return res.status(200).json(saved);
   } catch (error) {
     console.log('error', error);
@@ -59,4 +68,9 @@ export async function readTours(req: Request, res: Response): Promise<Response> 
     console.log('error', error);
     return res.status(400).json({ error });
   }
+}
+
+export async function getTourImage(req: Request, res: Response): Promise<void> {
+  const { img } = req.params;
+  res.sendFile(`/usr/app/uploads/${img}`);
 }

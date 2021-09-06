@@ -10,12 +10,23 @@ class TouristService {
 
   public async createTourComment(data: Partial<TourCommentData>): Promise<ITourCommentModel> {
     const tourComment = new TourComment(data);
-    return await tourComment.save();
+    const saved = await tourComment.save();
+    return saved;
   }
 
   public async readTours(data: Partial<TourData>): Promise<ITourModel[]> {
     const { title } = data;
-    return await Tour.find({ title: new RegExp(title, 'i') });
+    return await Tour.find({
+      title: new RegExp(title, 'i'),
+      active: true,
+    })
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'userId',
+        },
+      })
+      .exec();
   }
 }
 
