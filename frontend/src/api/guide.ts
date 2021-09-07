@@ -16,7 +16,7 @@ export function useGuides() {
   const {setLoggedUser} = useAppContext();
 
   const {data: guides = []} = useQuery('GUIDES', async () => {
-    const res = await fetch('http://localhost:3000/v1/guide', {
+    const res = await fetch('https://floripatour.herokuapp.com/v1/guide', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export function useGuides() {
   })
 
   const toggleGuideActiveMutation = useMutation('TOGGLE_GUIDE_ACTIVE', async ({guideId, active}: any) => {
-    const res = await fetch(`http://localhost:3000/v1/guide/${guideId}`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/guide/${guideId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export function useGuides() {
   })
 
   const createGuideMutation = useMutation('CREATE_GUIDE', async (variables: CreateGuideInput) => {
-    const res = await fetch(`http://localhost:3000/v1/guide`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/guide`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export function useGuides() {
   const updateGuideMutation = useMutation('UPDATE_GUIDE', async ({guideId, update}: any) => {
     const { name, username, registryNumber, email, phone } = update;
 
-    const res = await fetch(`http://localhost:3000/v1/guide/${guideId}`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/guide/${guideId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export function useGuides() {
   })
 
   const resetPasswordMutation = useMutation('GUIDE_RESET_PASSWORD', async ({guideId, password}: any) => {
-    const res = await fetch(`http://localhost:3000/v1/guide/${guideId}/password`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/guide/${guideId}/password`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

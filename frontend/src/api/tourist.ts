@@ -4,7 +4,7 @@ export function useTourists() {
   const queryClient = useQueryClient();
 
   const createTouristMutation = useMutation('CREATE_TOURIST', async (variables: any) => {
-    const res = await fetch(`http://localhost:3000/v1/tourist`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/tourist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

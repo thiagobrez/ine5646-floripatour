@@ -107,7 +107,7 @@ const LoginPage = () => {
     Error,
     {username: string; password: string}
     >('LOGIN', async ({username, password}: any) => {
-    const res = await fetch('http://localhost:3000/login', {
+    const res = await fetch('https://floripatour.herokuapp.com/login', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',

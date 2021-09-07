@@ -110,7 +110,7 @@ const ToursPage = () => {
 
           return (
             <TourCard key={tour._id} onClick={() => openTour(tour._id)}>
-              {image ? <Image src={`http://localhost:3000/v1/tour/${image}`} /> : <NoImage />}
+              {image ? <Image src={`https://floripatour.herokuapp.com/v1/tour/${image}`} /> : <NoImage />}
               <TourTitle>{tour.title}</TourTitle>
             </TourCard>
           )

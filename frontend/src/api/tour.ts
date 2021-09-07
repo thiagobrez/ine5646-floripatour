@@ -43,7 +43,7 @@ export function useTours() {
   const {state: {loggedUser}} = useAppContext();
 
   const {data: tours = []} = useQuery<Tour[]>('TOURS', async () => {
-    const res = await fetch('http://localhost:3000/v1/tour', {
+    const res = await fetch('https://floripatour.herokuapp.com/v1/tour', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export function useTours() {
   })
 
   const toggleTourActiveMutation = useMutation('TOGGLE_TOUR_ACTIVE', async ({tourId, active}: any) => {
-    const res = await fetch(`http://localhost:3000/v1/tour/${tourId}`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/tour/${tourId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export function useTours() {
   })
 
   const createTourMutation = useMutation('CREATE_TOUR', async (formData: FormData) => {
-    const res = await fetch(`http://localhost:3000/v1/tour`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/tour`, {
       method: 'POST',
       body: formData,
     });
@@ -98,7 +98,7 @@ export function useTours() {
   })
 
   const createTourCommentMutation = useMutation('CREATE_TOUR_COMMENT', async ({tourId, userId, text}: any) => {
-    const res = await fetch(`http://localhost:3000/v1/tourComment`, {
+    const res = await fetch(`https://floripatour.herokuapp.com/v1/tourComment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -103,7 +103,7 @@ const TourPage = () => {
 
       <ImageContainer>
         {tour.images.map(image => (
-          <Image key={image} src={`http://localhost:3000/v1/tour/${image}`} />
+          <Image key={image} src={`https://floripatour.herokuapp.com/v1/tour/${image}`} />
         ))}
       </ImageContainer>
 
