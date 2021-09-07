@@ -43,7 +43,9 @@ export function useTours() {
   const {state: {loggedUser}} = useAppContext();
 
   const {data: tours = []} = useQuery<Tour[]>('TOURS', async () => {
-    const res = await fetch('https://floripatour.herokuapp.com/v1/tour', {
+    const url = 'https://floripatour.herokuapp.com/v1/tour';
+
+    const res = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -63,6 +63,7 @@ const InfoWrapper = styled.div`
   align-items: center;
   margin-left: 8px;
   overflow: hidden;
+  white-space: nowrap;
 `;
 
 const TitleWrapper = styled.div`
@@ -266,7 +267,10 @@ const GuidePage = () => {
                 R${tour.price}
               </InfoWrapper>
               <InfoWrapper>
-                <input type="checkbox" id="active" name="active" value="true" checked={tour.active} onChange={() => toggleTourActive(tour._id, tour.active)} />
+                <input type="checkbox" id="active" name="active" value="true" checked={tour.active} onChange={(e) => {
+                  e.stopPropagation();
+                  toggleTourActive(tour._id, tour.active)
+                }} />
               </InfoWrapper>
             </TourItem>
           )

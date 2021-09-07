@@ -84,7 +84,9 @@ const ToursPage = () => {
   const [search, setSearch] = useState('');
   const {tours} = useTours();
   const history = useHistory();
-  const filteredTours = tours.filter(tour => tour.title.toLowerCase().includes(search.toLowerCase()));
+  const filteredTours = tours
+    .filter(tour => tour.active)
+    .filter(tour => tour.title.toLowerCase().includes(search.toLowerCase()));
 
   const openTour = (tourId: string) => {
     history.push(`${Routes.TOUR}/${tourId}`)
