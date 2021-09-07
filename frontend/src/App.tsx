@@ -2,7 +2,7 @@ import React from "react";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components/macro";
 
 import Header from "./components/Header/Header";
